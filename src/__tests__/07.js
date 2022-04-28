@@ -4,19 +4,19 @@ import userEvent from '@testing-library/user-event'
 import App from '../final/07'
 // import App from '../exercise/07'
 
-test('renders', async () => {
+test('renders', () => {
   const {container} = render(<App />)
   const plus = screen.getByText(/add item/i)
-  await userEvent.click(plus)
-  await userEvent.click(plus)
-  await userEvent.click(plus)
-  await userEvent.click(plus)
+  userEvent.click(plus)
+  userEvent.click(plus)
+  userEvent.click(plus)
+  userEvent.click(plus)
 
   const orangeInput = screen.getByLabelText(/orange/i)
   const orangeContainer = screen.getByText(/orange/i).closest('li')
   const inOrange = within(orangeContainer)
-  await userEvent.type(orangeInput, 'sup dawg')
-  await userEvent.click(inOrange.getByText('remove'))
+  userEvent.type(orangeInput, 'sup dawg')
+  userEvent.click(inOrange.getByText('remove'))
 
   const allLis = container.querySelectorAll('li')
   Array.from(allLis).forEach(li => {

@@ -13,13 +13,13 @@ beforeEach(() => {
   global.alert.mockClear()
 })
 
-test('calls the onSubmitUsername handler when the submit is fired', async () => {
+test('calls the onSubmitUsername handler when the submit is fired', () => {
   render(<App />)
   const input = screen.getByLabelText(/username/i)
   const submit = screen.getByText(/submit/i)
 
   let value = 'A'
-  await userEvent.type(input, value)
+  userEvent.type(input, value)
   expect(submit).toBeDisabled() // upper-case
 
   const output = screen.getByText(/lower\s?case/i)
@@ -28,10 +28,10 @@ test('calls the onSubmitUsername handler when the submit is fired', async () => 
     output.getAttribute('role') !== 'alert',
     'Add an attribute `role="alert"` to the div to help with screen reader users.',
   )
-  await userEvent.clear(input)
+  userEvent.clear(input)
   value = 'a'
-  await userEvent.type(input, value)
-  await userEvent.click(submit)
+  userEvent.type(input, value)
+  userEvent.click(submit)
 
   expect(global.alert).toHaveBeenCalledWith(`You entered: ${input.value}`)
   expect(global.alert).toHaveBeenCalledTimes(1)

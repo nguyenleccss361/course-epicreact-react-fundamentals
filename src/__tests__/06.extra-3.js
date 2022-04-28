@@ -12,15 +12,15 @@ beforeEach(() => {
   global.alert.mockClear()
 })
 
-test('calls the onSubmitUsername handler when the submit is fired', async () => {
+test('calls the onSubmitUsername handler when the submit is fired', () => {
   render(<App />)
   const input = screen.getByLabelText(/username/i)
   const submit = screen.getByText(/submit/i)
 
   const value = 'A'
-  await userEvent.type(input, value)
+  userEvent.type(input, value)
   expect(input.value).toBe('a')
-  await userEvent.click(submit)
+  userEvent.click(submit)
 
   expect(global.alert).toHaveBeenCalledWith(`You entered: ${input.value}`)
   expect(global.alert).toHaveBeenCalledTimes(1)
