@@ -19,11 +19,28 @@ function UsernameForm({onSubmitUsername}) {
 
   // 🐨 make sure to associate the label to the input.
   // to do so, set the value of 'htmlFor' prop of the label to the id of input
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    // console.log(event.nativeEvent)
+    // console.log(event)
+    console.dir(event.target)
+    const firstNameValue = event.target.elements.firstnameInput.value
+    const userNameValue = event.target.elements.username.value
+    onSubmitUsername(firstNameValue, userNameValue)
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label>Username:</label>
-        <input type="text" />
+        {/* html is just for, but DOM property is htmlFor */}
+        <label htmlFor="firstnameInput">First Name: </label>
+        <input id="firstnameInput" type="text" />
+      </div>
+      <div>
+        <label>Username: </label>
+        {/* id and htmlFor method is better than name for accessibility */}
+        <input name="username" type="text" />
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -31,7 +48,8 @@ function UsernameForm({onSubmitUsername}) {
 }
 
 function App() {
-  const onSubmitUsername = username => alert(`You entered: ${username}`)
+  const onSubmitUsername = (firstname, username) =>
+    alert(`You entered: ${firstname} and ${username}`)
   return <UsernameForm onSubmitUsername={onSubmitUsername} />
 }
 
