@@ -49,29 +49,65 @@ import * as React from 'react'
 // }
 
 // 1. 💯 using refs
-function UsernameForm({onSubmitUsername}) {
-  const inputRef = React.useRef()
-  const handleSubmit = event => {
+// function UsernameForm({onSubmitUsername}) {
+//   const inputRef = React.useRef()
+//   const handleSubmit = event => {
+//     event.preventDefault()
+//     // console.dir(inputRef)
+//     const userNameValue = inputRef.current.value
+//     onSubmitUsername(userNameValue)
+//   }
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <div>
+//         <label htmlFor="usernameInput">Username: </label>
+//         <input id="usernameInput" type="text" ref={inputRef} />
+//       </div>
+//       <button type="submit">Submit</button>
+//     </form>
+//   )
+// }
+
+// 2. 💯 Validate lower-case
+function UsernameForm() {
+  const [isValid, setIsValid] = React.useState(false)
+  const [error, setError] = React.useState(null)
+
+  const handleChange = event => {
     event.preventDefault()
-    // console.dir(inputRef)
-    const userNameValue = inputRef.current.value
-    onSubmitUsername(userNameValue)
+    const userNameValue = event.target.value
+    if (userNameValue === userNameValue.toLowerCase()) {
+      setIsValid(true)
+    } else {
+      setIsValid(false)
+      setError('Username must be lower case')
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div>
-        <label htmlFor="usernameInput">Username: </label>
-        <input id="usernameInput" type="text" ref={inputRef} />
+        <label>Username: </label>
+        <input name="username" type="text" onChange={handleChange} />
       </div>
-      <button type="submit">Submit</button>
+      <h1>{setIsValid}</h1>
+      {isValid ? (
+        <button type="submit">Submit</button>
+      ) : (
+        <div>
+          <h1 role="alert">{setError}</h1>
+          <button type="submit" disabled>
+            Submit
+          </button>
+        </div>
+      )}
     </form>
   )
 }
 
 function App() {
-  const onSubmitUsername = username => alert(`You entered: ${username}`)
-  return <UsernameForm onSubmitUsername={onSubmitUsername} />
+  return <UsernameForm />
 }
 
 export default App
